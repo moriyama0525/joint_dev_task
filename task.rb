@@ -55,7 +55,7 @@ def q7
   array = ["1", "2", "3", "4", "5"]
 
   # 以下に回答を記載
-  p array.map!(|x| x.to_i)
+  p array.map!(&:to_i)
 
 end
 
@@ -85,7 +85,7 @@ def q10
 
   # 以下に回答を記載
   foods.each do |food|
-    food.include?("うに") ? puts "好物です" : puts "まあまあ好きです"
+    puts food.include?("うに") ? "好物です" : "まあまあ好きです"
   end
 end
 
@@ -148,19 +148,20 @@ end
 
 class UserQ17
   # 以下に回答を記載
-  def initialize(user)
+  def initialize(**user)
     @name = user[:name]
     @age = user[:age]
     @gender = user[:gender]
-    @admin = user[:admin] ? "有り" : "無し"
+    @admin = user[:admin]
   end
 
   def info
+    admin = @admin ? "有り" : "無し"
     puts <<~TEXT
       名前：#{@name}
       年齢：#{@age}
       性別：#{@gender}
-      管理者権限：#{@admin}
+      管理者権限：#{admin}
     TEXT
   end
 end
@@ -177,16 +178,16 @@ end
 
 class UserQ18
   # 以下に回答を記載
-  def initialize(user)
+  def initialize(**user)
     @name = user[:name]
     @age = user[:age]
   end
 
   def introduce
     if @age < 15
-      puts "はいさいまいど～、#{@name}です！！！"
+      "はいさいまいど～、#{@name}です！！！"
     else
-      puts "こんにちは、#{@name}と申します。宜しくお願いいたします。"
+      "こんにちは、#{@name}と申します。宜しくお願いいたします。"
     end
   end
 end
@@ -204,7 +205,7 @@ class Item
   # 以下を修正して下さい
   attr_reader :name
 
-  def initialize(name)
+  def initialize(name:)
     @name = name
   end
 end
@@ -227,12 +228,12 @@ end
 
 class Zoo
   # 以下に回答を記載
-  def initialize(zoo)
-    @name = zoo[:name]
-    @infant = zoo[:entry_fee][:infant]
-    @children = zoo[:entry_fee][:children]
-    @adult = zoo[:entry_fee][:adult]
-    @senior = zoo[:entry_fee][:senior]
+  def initialize(**params)
+    @name = params[:name]
+    @infant = params[:entry_fee][:infant]
+    @children = params[:entry_fee][:children]
+    @adult = params[:entry_fee][:adult]
+    @senior = params[:entry_fee][:senior]
   end
 
   def info_entry_fee(user)
@@ -248,7 +249,7 @@ class Zoo
       @senior
     end
 
-    puts "#{user.name}さんの入場料は#{fee}です"
+    puts "#{user.name}さんの入場料は#{fee}円です"
   end
 end
 
